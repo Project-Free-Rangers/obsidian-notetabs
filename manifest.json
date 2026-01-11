@@ -1,0 +1,11 @@
+{
+	"id": "obsidian-note-tabs",
+	"name": "Note Tabs",
+	"version": "1.0.0",
+	"minAppVersion": "1.0.0",
+	"description": "Create tabbed sections within your Obsidian notes.",
+	"author": "Project Free Rangers",
+	"authorUrl": "https://github.com/Project-Free-Rangers",
+	"fundingUrl": "https://ko-fi.com/projectfreerangers",
+	"isDesktopOnly": false
+}
