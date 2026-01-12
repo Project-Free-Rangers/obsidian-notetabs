@@ -120,5 +120,4 @@ If you like the fun projects I do and want to say an extra thank you:
 
 > **Credits:**
 > - _**Note Tabs** tab logo :copyright: 2026 Jheanell Elliott (Project Free Rangers)_
-> - _Obsidian logo is a trademark of Obsidian_
 > - _Icons courtesy of [Lucides](https://lucide.dev/)_
