@@ -17,12 +17,12 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 
 > ## ![Getting Started](./docs/assets/book-open-text.svg) Getting Started
 >
-> - _How to Install_
+> - [How to Install](#-how-to-install)
 >    - [From Obsidian](#from-obsidian)
 >    - [Manual Installation](#manual-installation)
-> - [How to Use](#how-to-use-how-to-insert-note-tabs-section)
-> - [Core Features](#features-core-features)
-> - [Support](#support-project-free-rangers-support)
+> - [How to Use](#-how-to-insert-note-tabs-section)
+> - [Core Features](#-core-features)
+> - [Support](#-support)
 >
 
 <br>
