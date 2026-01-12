@@ -29,7 +29,7 @@ export default class NoteTabsPlugin extends Plugin {
 		await this.saveData(this.settings);
 
 		// update settings
-		await notetabsApplyUpdatedSettings(this);
+		notetabsApplyUpdatedSettings(this);
 	}
 
 	/**
