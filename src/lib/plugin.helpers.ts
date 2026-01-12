@@ -5,8 +5,6 @@ import { addInitialTabClassesAndAttributes, cleanAndRenderTabs, setElAttributes 
 import { NoteTabsAttributes, NoteTabsConstants, NoteTabsIdentifiers } from './constants.types';
 import { NoteTabsSettings } from 'settings';
 
-/* eslint obsidianmd/ui/sentence-case: off */
-
 export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext, plugin: NoteTabsPlugin, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): Promise<void> {
   const { basicLayout } = NOTETABS_IDENTIFIERS;
 
@@ -25,7 +23,7 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
     const currentTarget = e.currentTarget as HTMLElement;
 
     if (!tabHeadSection.contains(currentTarget)) {
-      new Notice('Note Tabs: Invalid header click target!');
+      new Notice('Invalid notetabs header click target!');
       return;
     }
 
