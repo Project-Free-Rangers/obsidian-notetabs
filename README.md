@@ -20,7 +20,7 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 > - [How to Install](#-how-to-install)
 >    - [From Obsidian](#from-obsidian)
 >    - [Manual Installation](#manual-installation)
-> - [How to Use](#-how-to-insert-note-tabs-section)
+> - [How to Use](#-how-to-insert-a-note-tabs-section)
 > - [Core Features](#-core-features)
 > - [Support](#-support)
 >
@@ -48,7 +48,7 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 
 <br>
 
-## ![How to Use](./docs/assets/square-mouse-pointer.svg) How to Insert Note Tabs Section
+## ![How to Use](./docs/assets/square-mouse-pointer.svg) How to Insert a Note Tabs Section
 
 1. Right-click in the Obsidian editor while in Edit mode
 2. Select "**Add new notetabs section**" to insert an entirely new tabbed section, or
@@ -120,4 +120,4 @@ If you like the fun projects I do and want to say an extra thank you:
 
 > **Credits:**
 > - _**Note Tabs** tab logo :copyright: 2026 Jheanell Elliott (Project Free Rangers)_
-> - _Icons courtesy of [Lucides](https://lucide.dev/)_
+> - _Icons courtesy of [Lucide](https://lucide.dev/)_
