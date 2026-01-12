@@ -143,7 +143,7 @@ export function notetabsAddNewTab(editor: Editor, pluginConstants: NoteTabsConst
   }
 }
 
-export async function notetabsApplyUpdatedSettings(plugin: NoteTabsPlugin, pluginIndentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS) {
+export function notetabsApplyUpdatedSettings(plugin: NoteTabsPlugin, pluginIndentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS): void {
   plugin.app.workspace.iterateAllLeaves((leaf) => {
     if (leaf.view instanceof MarkdownView) {
       const { containerEl } = leaf.view;

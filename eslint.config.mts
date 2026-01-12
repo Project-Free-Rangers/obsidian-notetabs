@@ -31,6 +31,6 @@ export default tseslint.config(
 		"versions.json",
 		"main.js",
 		"stylelint.config.js",
-		"release-build/main.js"
+		"release-build"
 	]),
 );
