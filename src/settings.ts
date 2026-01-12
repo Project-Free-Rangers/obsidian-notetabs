@@ -1,8 +1,7 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
 import NoteTabsPlugin from "./main";
 import { NOTETABS_CONSTANTS, NOTETABS_IDENTIFIERS } from 'lib/constants';
-
-/* eslint @microsoft/sdl/no-inner-html: off, obsidianmd/ui/sentence-case: off */
+import { parseHTMLStringAndAppend } from 'lib/utils';
 
 export interface NoteTabsSettings {
 	tabOrientation: string;
@@ -92,6 +91,6 @@ export class NoteTabsSettingsTab extends PluginSettingTab {
 
 		// Support button
 		const SupportArea = containerEl.createEl('div');
-		SupportArea.innerHTML = NOTETABS_CONSTANTS.support?.callout || '';
+		parseHTMLStringAndAppend((NOTETABS_CONSTANTS.support?.callout || ''), SupportArea);
 	}
 }
