@@ -2,7 +2,6 @@ import { Plugin } from 'obsidian';
 import { DEFAULT_SETTINGS, NoteTabsSettingsTab, NoteTabsSettings } from "./settings";
 import { notetabsCodeBlockProcessor, notetabsAddNewTabSection, notetabsAddNewTab, notetabsApplyUpdatedSettings } from 'lib/plugin.helpers';
 
-/* eslint obsidianmd/ui/sentence-case: off */
 export default class NoteTabsPlugin extends Plugin {
 	settings: NoteTabsSettings;
 
@@ -53,7 +52,7 @@ export default class NoteTabsPlugin extends Plugin {
 				menu.addSeparator()
 				.addItem((item) =>
 					item
-						.setTitle('Add new Note Tabs section')
+						.setTitle('Add new notetabs section')
 						.setIcon('notebook-tabs')
 						.onClick(() => {
 							notetabsAddNewTabSection(editor);
@@ -61,7 +60,7 @@ export default class NoteTabsPlugin extends Plugin {
 				)
 				.addItem((item) =>
 					item
-						.setTitle('Add new Note Tabs tab')
+						.setTitle('Add new notetabs tab')
 						.setIcon('notebook-tabs')
 						.onClick(() => {
 							notetabsAddNewTab(editor);

@@ -1,7 +1,6 @@
 import { MarkdownRenderer, App, Component } from 'obsidian';
 import { NOTETABS_CONSTANTS, NOTETABS_TAGS, NOTETABS_IDENTIFIERS, NOTETABS_ATTRIBUTES } from 'lib/constants';
-
-/* eslint @microsoft/sdl/no-inner-html: off */
+import { NoteTabsAttributes, NoteTabsConstants, NoteTabsIdentifiers, NoteTabsTags } from './constants.types';
 
 type CleanTabRender = {
   header: HTMLElement;
@@ -19,11 +18,23 @@ export const setElAttributes = (attrList: Array<AttributeCollection>, el: HTMLEl
   }
 };
 
-export const cleanAndRenderTabs = async (src: string, path: string, app: App, cmp: Component): Promise<CleanTabRender | null> => {
+export const parseHTMLStringAndAppend = (source: string, container: HTMLElement): void => {
+  /**
+   * TODO: Using the lazy-man's cheat with DOMParser here. Re-evaluate and refactor this process later.
+   */
+  const parsedDOM = new DOMParser().parseFromString(source, 'text/html');
+  const parsedElements = Array.from(parsedDOM.body.children);
+
+  for (const elements of parsedElements  as HTMLElement[]) {
+    container.appendChild(elements);
+  }
+};
+
+export const cleanAndRenderTabs = async (src: string, path: string, app: App, cmp: Component, pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS, pluginTags: NoteTabsTags = NOTETABS_TAGS): Promise<CleanTabRender | null> => {
   let output = null;
-  const findHeaderSrc = new RegExp(`${NOTETABS_TAGS.tab.headerMarker}(.*)`, 'g').exec(src) || [];
+  const findHeaderSrc = new RegExp(`${pluginTags.tab.headerMarker}(.*)`, 'g').exec(src) || [];
   const header = findHeaderSrc[1]?.trim() || '';
-  const content = src.replace(NOTETABS_TAGS.tab.opener, '')
+  const content = src.replace(pluginTags.tab.opener, '')
                       .replace((findHeaderSrc[0] || ''), '')
                       .trim();
 
@@ -43,7 +54,7 @@ export const cleanAndRenderTabs = async (src: string, path: string, app: App, cm
     tabHeadEl.replaceChildren(allowedHeadChild);
 
     if (!tabHeadEl.childElementCount) {
-      tabHeadEl.innerHTML = NOTETABS_CONSTANTS.warnings.badHeader;
+      parseHTMLStringAndAppend(pluginConstants.warnings.badHeader, tabHeadEl);
     }
 
     output = {
@@ -55,8 +66,8 @@ export const cleanAndRenderTabs = async (src: string, path: string, app: App, cm
   return output;
 };
 
-export const addInitialTabClassesAndAttributes = (headEl: HTMLElement, contentEl: HTMLElement, idx: number): void => {
-  const { basicLayout } = NOTETABS_IDENTIFIERS;
+export const addInitialTabClassesAndAttributes = (headEl: HTMLElement, contentEl: HTMLElement, idx: number, pluginIdentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): void => {
+  const { basicLayout } = pluginIdentifiers;
 
   // add tab classes
   headEl.addClass(basicLayout.classNames.tab.header);
@@ -68,22 +79,22 @@ export const addInitialTabClassesAndAttributes = (headEl: HTMLElement, contentEl
 
   // header attributes
   setElAttributes([
-    { attr: NOTETABS_ATTRIBUTES.tab.id, val: headAttrLabel },
-    { attr: NOTETABS_ATTRIBUTES.tab.content, val: contentAttrLabel },
+    { attr: pluginAttributes.tab.id, val: headAttrLabel },
+    { attr: pluginAttributes.tab.content, val: contentAttrLabel },
     { attr: 'title', val: (headEl.textContent || '') },
     (idx == 0 ?
-      { attr: NOTETABS_ATTRIBUTES.active.attr, val: NOTETABS_ATTRIBUTES.active.state.on.toString() } :
-      { attr: NOTETABS_ATTRIBUTES.active.attr, val: NOTETABS_ATTRIBUTES.active.state.off.toString() }
+      { attr: pluginAttributes.active.attr, val: pluginAttributes.active.state.on.toString() } :
+      { attr: pluginAttributes.active.attr, val: pluginAttributes.active.state.off.toString() }
     )
   ], headEl);
 
   // content attributes
   setElAttributes([
-    { attr: NOTETABS_ATTRIBUTES.tab.id, val: contentAttrLabel },
-    { attr: NOTETABS_ATTRIBUTES.tab.content, val: headAttrLabel },
+    { attr: pluginAttributes.tab.id, val: contentAttrLabel },
+    { attr: pluginAttributes.tab.content, val: headAttrLabel },
     (idx == 0 ?
-      { attr: NOTETABS_ATTRIBUTES.active.attr, val: NOTETABS_ATTRIBUTES.active.state.on.toString() } :
-      { attr: NOTETABS_ATTRIBUTES.active.attr, val: NOTETABS_ATTRIBUTES.active.state.off.toString() }
+      { attr: pluginAttributes.active.attr, val: pluginAttributes.active.state.on.toString() } :
+      { attr: pluginAttributes.active.attr, val: pluginAttributes.active.state.off.toString() }
     )
   ], contentEl);
 };
