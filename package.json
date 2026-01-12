@@ -1,14 +1,15 @@
 {
-  "name": "obsidian-note-tabs",
+  "name": "obsidian-notetabs",
   "version": "1.0.0",
-  "description": "Create HTML-styled tabbed sections within your Obsidian notes.",
-  "homepage": "https://github.com/Project-Free-Rangers/obsidian-note-tabs-private#readme",
+  "description": "Create tabbed sections within your Obsidian notes.",
+  "private": true,
+  "homepage": "https://github.com/Project-Free-Rangers/obsidian-notetabs#readme",
   "bugs": {
-    "url": "https://github.com/Project-Free-Rangers/obsidian-note-tabs-private/issues"
+    "url": "https://github.com/Project-Free-Rangers/obsidian-notetabs/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Project-Free-Rangers/obsidian-note-tabs-private.git"
+    "url": "git+https://github.com/Project-Free-Rangers/obsidian-notetabs.git"
   },
   "license": "MIT",
   "author": "Project Free Rangers (jaemega)",
