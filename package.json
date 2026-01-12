@@ -12,7 +12,7 @@
     "url": "git+https://github.com/Project-Free-Rangers/obsidian-notetabs.git"
   },
   "license": "MIT",
-  "author": "Project Free Rangers (jaemega)",
+  "author": "Jheanell Elliott (Project Free Rangers)",
   "type": "module",
   "main": "main.js",
   "scripts": {
