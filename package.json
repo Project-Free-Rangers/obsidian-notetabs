@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-notetabs",
+  "name": "notetabs",
   "version": "1.0.0",
-  "description": "Create tabbed sections within your Obsidian notes.",
+  "description": "Create tabbed sections within your notes.",
   "private": true,
   "homepage": "https://github.com/Project-Free-Rangers/obsidian-notetabs#readme",
   "bugs": {

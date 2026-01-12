@@ -33,7 +33,7 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 ### From Obsidian
 
 1. Within the **Community plugins** setting, select **Browse**
-2. Search for "**Note Tabs**" from the search bar of the plugin marketplace
+2. Search for "**Note Tabs**" from the search bar of the plugin list
 3. Select **Note Tabs** (by Project Free Rangers)
 4. Install the plugin, then enable
 
@@ -51,8 +51,8 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 ## ![How to Use](./docs/assets/square-mouse-pointer.svg) How to Insert Note Tabs Section
 
 1. Right-click in the Obsidian editor while in Edit mode
-2. Select "**Add new Note Tabs section**" to insert an entirely new tabbed section, or
-3. Select "**Add new Note Tabs tab**" within an existing tabbed section to add a new tab
+2. Select "**Add new notetabs section**" to insert an entirely new tabbed section, or
+3. Select "**Add new notetabs tab**" within an existing tabbed section to add a new tab
 
 | Context Menu Options |
 | ------------- |
