@@ -5,7 +5,8 @@
 </picture>
 <br><br>
 
-![Static Badge](https://img.shields.io/badge/release-v1.0.0-3BA3FF?style=plastic&logo=github) ![Static Badge](https://img.shields.io/badge/plugin_developed_by-Project_Free_Rangers-973bff?style=plastic&logo=obsidian)
+![Dynamic Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FProject-Free-Rangers%2Fobsidian-notetabs%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=%24.version&style=plastic&logo=github&label=version&color=3BA3FF
+) ![Static Badge](https://img.shields.io/badge/plugin_developed_by-Project_Free_Rangers-973bff?style=plastic&logo=obsidian)
 
 Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuitive way to organize your notes with a simple click. **Note Tabs** is highly responsive and compatible with most plugins and themes you choose to use with it.
 
@@ -23,6 +24,8 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 > - [How to Use](#-how-to-insert-a-note-tabs-section)
 > - [Core Features](#-core-features)
 > - [Support](#-support)
+> - [Known Issues](#-known-issues)
+>   - [Slow loading in Live Preivew](#slow-loading-in-live-preivew)
 >
 
 <br>
@@ -113,6 +116,15 @@ Replace this with your tab content.
 If you like the fun projects I do and want to say an extra thank you:
 
 <a href='https://ko-fi.com/N4N11RXRQW' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
+<br>
+
+## ![Known Issues](./docs/assets/search-code.svg) Known Issues
+
+### Slow loading in Live Preivew
+In some vaults, Live Preview may take a second or two to render **Note Tabs** properly. This is not a bug with **Note Tabs**, but rather, a quirk of Live Preview when dealing with certain markdown. [See forum discussions here.](https://forum.obsidian.md/search?q=live%20preview%20slow%20render)
+
+This slow rendering doesn't happen often and will resolve itself once Obsidian triggers its own Live Preview rerender.
 
 ---
 ---
