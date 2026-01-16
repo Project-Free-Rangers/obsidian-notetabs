@@ -1,6 +1,6 @@
 import { Plugin } from 'obsidian';
 import { DEFAULT_SETTINGS, NoteTabsSettingsTab, NoteTabsSettings } from "./settings";
-import { notetabsCodeBlockProcessor, notetabsAddNewTabSection, notetabsAddNewTab, notetabsApplyUpdatedSettings } from 'lib/plugin.helpers';
+import { notetabsCodeBlockProcessor, notetabsAddNewTabSection, notetabsAddNewTab, notetabsApplyUpdatedSettings, notetabsRerenderEmbeds } from 'lib/plugin.helpers';
 
 export default class NoteTabsPlugin extends Plugin {
 	settings: NoteTabsSettings;
@@ -9,12 +9,15 @@ export default class NoteTabsPlugin extends Plugin {
 		await this.loadSettings();
 
 		// Register context menu items
-		this._registerContexMenuItems();
+		this.__registerContexMenuItems();
 
 		// Register code block
-		this._registerCodeBlockType();
+		this.__registerCodeBlockType();
 
-		// add settings
+		// Register events
+		this.__registerRerenderEvent();
+
+		// Add settings
 		this.addSettingTab(new NoteTabsSettingsTab(this.app, this));
 	}
 
@@ -36,7 +39,7 @@ export default class NoteTabsPlugin extends Plugin {
 	 * Register code block type
 	 * @internal
 	 */
-	private _registerCodeBlockType() {
+	__registerCodeBlockType() {
 		this.registerMarkdownCodeBlockProcessor('notetabs', async (source, el, ctx) => {
 			await notetabsCodeBlockProcessor(source, el, ctx, this);
 		});
@@ -46,7 +49,7 @@ export default class NoteTabsPlugin extends Plugin {
 	 * Register context menu items
 	 * @internal
 	 */
-	private _registerContexMenuItems() {
+	__registerContexMenuItems() {
 		this.registerEvent(
 			this.app.workspace.on('editor-menu', (menu, editor) => {
 				menu.addSeparator()
@@ -68,5 +71,17 @@ export default class NoteTabsPlugin extends Plugin {
 				);
 			})
 		);
+	}
+
+	/**
+	 * Register render event for fallback rerender of embeds
+	 * @internal
+	 */
+	__registerRerenderEvent() {
+		this.registerEvent(this.app.workspace.on('active-leaf-change', (leaf) => {
+			if (leaf) {
+				notetabsRerenderEmbeds(leaf, this);
+			}
+		}));
 	}
 }

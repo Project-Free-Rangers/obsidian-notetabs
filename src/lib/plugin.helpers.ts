@@ -1,15 +1,34 @@
-import { MarkdownPostProcessorContext, MarkdownView, Notice, Editor } from 'obsidian';
+import { MarkdownPostProcessorContext, MarkdownView, Notice, Editor, WorkspaceLeaf } from 'obsidian';
 import NoteTabsPlugin from 'main';
 import { NOTETABS_CONSTANTS, NOTETABS_ATTRIBUTES, NOTETABS_IDENTIFIERS, NOTETABS_TAGS } from 'lib/constants';
 import { addInitialTabClassesAndAttributes, cleanAndRenderTabs, setElAttributes } from 'lib/utils';
-import { NoteTabsAttributes, NoteTabsConstants, NoteTabsIdentifiers } from './constants.types';
+import { NoteTabsAttributes, NoteTabsConstants, NoteTabsIdentifiers, NoteTabsTags } from './constants.types';
 import { NoteTabsSettings } from 'settings';
 
-export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext, plugin: NoteTabsPlugin, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): Promise<void> {
+/**
+ * NOTE:
+ * Using function declarations here instead of function expressions because of hoisting benefits.
+ * These functions should be available for calling as soon as possible, regardless of when they've been defined.
+ */
+
+/**
+ * Note Tabs code block processor
+ *
+ * @param source - Raw markdown value of the Note Tabs code block
+ * @param el - MarkdownView.contentEl
+ * @param ctx - MardownPostProcessorContext passed by registerMarkdownCodeBlockProcessor
+ * @param plugin - NoteTabsPlugin
+ * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value NOTETABS_ATTRIBUTES
+ * @param pluginTags - Optional dictionary of Notes Tabs tags. Default value NOTETABS_TAGS
+ * @returns Promise<void>
+ */
+export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext, plugin: NoteTabsPlugin, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES, pluginTags: NoteTabsTags = NOTETABS_TAGS): Promise<void> {
   const { basicLayout } = NOTETABS_IDENTIFIERS;
 
+  el.empty();
+
   let numOfTabs = 0;
-  const sourceTabs = source.split(NOTETABS_TAGS.tab.closer);
+  const sourceTabs = source.split(pluginTags.tab.closer);
 
   const noteTabsSection = el.createDiv();
   const tabHeadSection = noteTabsSection.createDiv();
@@ -113,9 +132,18 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
 
   // add inline CSS tab count variable
   noteTabsSection.style.setProperty('--tab-count', `${numOfTabs}`);
-};
+}
 
-export function notetabsApplySettings (containerEl: HTMLElement, pluginSettings: NoteTabsSettings, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): void {
+/**
+ * Apply settings to Note Tabs containers
+ *
+ * @public
+ * @param containerEl - Note Tabs container
+ * @param pluginSettings - NoteTabsPlugin.settings
+ * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value NOTETABS_ATTRIBUTES
+ * @returns void
+ */
+export function notetabsApplySettings(containerEl: HTMLElement, pluginSettings: NoteTabsSettings, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): void {
   const { settings } = pluginAttributes;
 
   setElAttributes([
@@ -125,6 +153,14 @@ export function notetabsApplySettings (containerEl: HTMLElement, pluginSettings:
   ], containerEl);
 }
 
+/**
+ * Add new Note Tabs container section
+ *
+ * @public
+ * @param editor - MarkdownView.editor
+ * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value NOTETABS_CONSTANTS
+ * @returns void
+ */
 export function notetabsAddNewTabSection(editor: Editor, pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS): void {
   if (editor) {
     editor.replaceRange(
@@ -134,6 +170,15 @@ export function notetabsAddNewTabSection(editor: Editor, pluginConstants: NoteTa
   }
 }
 
+
+/**
+ * Add new Note Tabs tab
+ *
+ * @public
+ * @param editor - MarkdownView.editor
+ * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value NOTETABS_CONSTANTS
+ * @return void
+ */
 export function notetabsAddNewTab(editor: Editor, pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS): void {
   if (editor) {
     editor.replaceRange(
@@ -143,6 +188,14 @@ export function notetabsAddNewTab(editor: Editor, pluginConstants: NoteTabsConst
   }
 }
 
+/**
+ * Apply updated changes made from the Settings menu
+ *
+ * @public
+ * @param plugin - NoteTabsPlugin
+ * @param pluginIndentifiers - Optional dictionary of Note Tabs indentifiers. Default value NOTETABS_IDENTIFIERS
+ * @returns void
+ */
 export function notetabsApplyUpdatedSettings(plugin: NoteTabsPlugin, pluginIndentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS): void {
   plugin.app.workspace.iterateAllLeaves((leaf) => {
     if (leaf.view instanceof MarkdownView) {
@@ -158,4 +211,29 @@ export function notetabsApplyUpdatedSettings(plugin: NoteTabsPlugin, pluginInden
       }
     }
   });
+}
+
+/**
+ * Fallback rerender method for embeds inside Note Tabs
+ *
+ * @public
+ * @param leaf - WorkspaceLeaf passed by event listener
+ * @param plugin - NoteTabsPlugin
+ * @param pluginIndentifiers - Optional dictionary of Note Tabs indentifiers. Default value NOTETABS_IDENTIFIERS
+ * @returns void
+ */
+export function notetabsRerenderEmbeds(leaf: WorkspaceLeaf, plugin: NoteTabsPlugin, pluginIndentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS): void {
+  const activeView = plugin.app.workspace.getActiveViewOfType(MarkdownView)
+
+  if (!activeView || !Object.is(leaf.view, activeView)) {
+    return;
+  }
+
+  const { contentEl } = activeView;
+  const { basicLayout } = pluginIndentifiers;
+  const notetabsWithEmbed = contentEl.querySelector(`${basicLayout.classNames.container} .markdown-embed`);
+
+  if (notetabsWithEmbed) {
+    activeView.previewMode.rerender(true);
+  }
 }
