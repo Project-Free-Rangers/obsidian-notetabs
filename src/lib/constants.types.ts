@@ -8,44 +8,43 @@ type StylesCollection = {
 type SettingsCollection = {
   section: {
     roundedEdges: string;
-  },
+  };
   tab: {
     defaultOrientation: string;
     verticalOrientation: string;
-  }
+  };
 };
+
+type IDShape<TLabel, TClass> = {
+  labels: TLabel;
+  classNames: TClass;
+};
+
+type NoteTabsStylesIdentifiers = IDShape<StylesCollection, StylesCollection>;
+
+type NoteTabsSettingsLayoutIdentifiers = IDShape<SettingsCollection, SettingsCollection>;
 
 type NoteTabsBasicLayoutIdentifiers = {
   classNames: {
-      container: string,
-      section: {
-        header: string;
-        content: string;
-      },
-      tab: {
-        header: string;
-        body: string;
-        active: {
-          leftSibling: string;
-        }
-      },
-      warnings: {
-        badHeader: string
-      },
-      settings: {
-        header: string;
-      }
-    }
-};
-
-type NoteTabsStylesIdentifiers = {
-  labels: StylesCollection;
-  classNames: StylesCollection;
-};
-
-type NoteTabsSettingsLayoutIdentifiers = {
-  labels: SettingsCollection,
-  classNames: SettingsCollection
+    container: string;
+    section: {
+      header: string;
+      content: string;
+    };
+    tab: {
+      header: string;
+      body: string;
+      active: {
+        leftSibling: string;
+      };
+    };
+    warnings: {
+      badHeader: string;
+    };
+    settings: {
+      header: string;
+    };
+  };
 };
 
 export type NoteTabsConstants = {
@@ -60,7 +59,7 @@ export type NoteTabsConstants = {
 export type NoteTabsIdentifiers = {
   basicLayout: NoteTabsBasicLayoutIdentifiers;
   settingsLayout: NoteTabsSettingsLayoutIdentifiers;
-  settingsStyles: NoteTabsStylesIdentifiers
+  settingsStyles: NoteTabsStylesIdentifiers;
 };
 
 export type NoteTabsTags = {
@@ -86,12 +85,12 @@ export type NoteTabsAttributes = {
     id: string;
     header: string;
     content: string;
-  }
+  };
   active: {
     attr: string;
     state: {
       on: number;
       off: number;
-    }
-  }
+    };
+  };
 };

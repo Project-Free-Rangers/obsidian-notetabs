@@ -119,7 +119,6 @@ ${NOTETABS_TAGS.section.closer}
     badHeader: `<span class="${NOTETABS_IDENTIFIERS.basicLayout.classNames.warnings.badHeader}">&#x26A0; Badly-formatted tab header!</span>`
   },
   support: {
-    // TODO: Clean up this shortcut
     callout: `
 <div class="callout notetabs-settings-callout">
 	<div class="callout-title">

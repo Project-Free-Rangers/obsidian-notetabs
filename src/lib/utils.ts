@@ -12,16 +12,25 @@ type AttributeCollection = {
   val: string;
 };
 
+/**
+ * Set multiple element attributes
+ *
+ * @param attrList - Array of AttributeCollection objects
+ * @param el - Target element for attribute assignments
+ */
 export const setElAttributes = (attrList: Array<AttributeCollection>, el: HTMLElement): void => {
   for (const attribute of attrList) {
     el.setAttribute(attribute.attr, attribute.val);
   }
 };
 
+/**
+ * Parse HTML string and append to a target container element
+ *
+ * @param source - HTML formatted string
+ * @param container  - Target element for appending
+ */
 export const parseHTMLStringAndAppend = (source: string, container: HTMLElement): void => {
-  /**
-   * TODO: Using the lazy-man's cheat with DOMParser here. Re-evaluate and refactor this process later.
-   */
   const parsedDOM = new DOMParser().parseFromString(source, 'text/html');
   const parsedElements = Array.from(parsedDOM.body.children);
 
@@ -30,7 +39,25 @@ export const parseHTMLStringAndAppend = (source: string, container: HTMLElement)
   }
 };
 
-export const cleanAndRenderTabs = async (src: string, path: string, app: App, cmp: Component, pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS, pluginTags: NoteTabsTags = NOTETABS_TAGS): Promise<CleanTabRender | null> => {
+/**
+ * Clean Note Tabs markdown and render
+ *
+ * @param src - Source markdown
+ * @param path - MarkdownPostProcessorContext.sourcePath
+ * @param app - MarkdownView.app
+ * @param cmp - MarkdownView
+ * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value NOTETABS_CONSTANTS
+ * @param pluginTags - Optional dictionary of Notes Tabs tags. Default value NOTETABS_TAGS
+ * @returns Promise that returns a object with rendered tab content or null
+ */
+export const cleanAndRenderTabs = async (
+  src: string,
+  path: string,
+  app: App,
+  cmp: Component,
+  pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS,
+  pluginTags: NoteTabsTags = NOTETABS_TAGS
+): Promise<CleanTabRender | null> => {
   let output = null;
   const findHeaderSrc = new RegExp(`${pluginTags.tab.headerMarker}(.*)`, 'g').exec(src) || [];
   const header = findHeaderSrc[1]?.trim() || '';
@@ -66,7 +93,22 @@ export const cleanAndRenderTabs = async (src: string, path: string, app: App, cm
   return output;
 };
 
-export const addInitialTabClassesAndAttributes = (headEl: HTMLElement, contentEl: HTMLElement, idx: number, pluginIdentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): void => {
+/**
+ * Add initial classes and attributes to Note Tabs
+ *
+ * @param headEl - Tab header element
+ * @param contentEl - Tab content element
+ * @param idx - Tab position index
+ * @param pluginIdentifiers - Optional dictionary of Note Tabs indentifiers. Default value `NOTETABS_IDENTIFIERS`
+ * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value `NOTETABS_ATTRIBUTES`
+ */
+export const addInitialTabClassesAndAttributes = (
+  headEl: HTMLElement,
+  contentEl: HTMLElement,
+  idx: number,
+  pluginIdentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS,
+  pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES
+): void => {
   const { basicLayout } = pluginIdentifiers;
 
   // add tab classes

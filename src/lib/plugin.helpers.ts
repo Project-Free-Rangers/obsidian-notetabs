@@ -18,16 +18,23 @@ import { NoteTabsSettings } from 'settings';
  * @param el - MarkdownView.contentEl
  * @param ctx - MardownPostProcessorContext passed by registerMarkdownCodeBlockProcessor
  * @param plugin - NoteTabsPlugin
- * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value NOTETABS_ATTRIBUTES
- * @param pluginTags - Optional dictionary of Notes Tabs tags. Default value NOTETABS_TAGS
- * @returns Promise<void>
+ * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value `NOTETABS_ATTRIBUTES`
+ * @param pluginTags - Optional dictionary of Notes Tabs tags. Default value `NOTETABS_TAGS`
+ * @returns Promise with a `void` return value
  */
-export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext, plugin: NoteTabsPlugin, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES, pluginTags: NoteTabsTags = NOTETABS_TAGS): Promise<void> {
+export async function notetabsCodeBlockProcessor(
+  source: string,
+  el: HTMLElement,
+  ctx: MarkdownPostProcessorContext,
+  plugin: NoteTabsPlugin,
+  pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES,
+  pluginTags: NoteTabsTags = NOTETABS_TAGS
+): Promise<void> {
   const { basicLayout } = NOTETABS_IDENTIFIERS;
 
   el.empty();
 
-  let numOfTabs = 0;
+  let tabCounter = 0;
   const sourceTabs = source.split(pluginTags.tab.closer);
 
   const noteTabsSection = el.createDiv();
@@ -38,8 +45,8 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
   const activeView = plugin.app.workspace.getActiveViewOfType(MarkdownView);
 
   const tabHeadList = [];
-  const _tabHeadHandler = (e: Event) => {
-    const currentTarget = e.currentTarget as HTMLElement;
+  const _tabHeadHandler = (e: Event & { currentTarget: HTMLElement }) => {
+    const { currentTarget } = e;
 
     if (!tabHeadSection.contains(currentTarget)) {
       new Notice('Invalid notetabs header click target!');
@@ -50,11 +57,13 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
      * Deactivate siblings
      */
     const siblings = Array.from(
-      tabHeadSection.querySelectorAll(`.${basicLayout.classNames.tab.header}:not([${pluginAttributes.tab.id}="${currentTarget.dataset.id}"])`)
+      tabHeadSection.querySelectorAll<HTMLElement>(`.${basicLayout.classNames.tab.header}:not([${pluginAttributes.tab.id}="${currentTarget.dataset.id}"])`)
     );
 
-    for (const nonActiveHead of siblings as HTMLElement[]) {
-      const nonActiveBody = tabContentSection.querySelector(`[${pluginAttributes.tab.id}="${nonActiveHead.dataset.xContent}"]`) as HTMLElement;
+    for (const nonActiveHead of siblings) {
+      const nonActiveBody = tabContentSection.querySelector(`[${pluginAttributes.tab.id}="${nonActiveHead.dataset.xContent}"]`);
+
+      if (!(nonActiveBody instanceof HTMLElement)) continue;
 
       // set head attributes
       setElAttributes([
@@ -73,8 +82,13 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
     /**
      * Activate target
      */
-    const activeBody = tabContentSection.querySelector(`[${pluginAttributes.tab.id}="${currentTarget.dataset.xContent}"]`) as HTMLElement;
-    const activeLeftSibling = currentTarget.previousElementSibling as HTMLElement;
+    const activeBody = tabContentSection.querySelector(`[${pluginAttributes.tab.id}="${currentTarget.dataset.xContent}"]`);
+    const activeLeftSibling = currentTarget.previousElementSibling;
+
+    if (!(activeBody instanceof HTMLElement)) {
+      new Notice('No active tab body found in current view.');
+      return;
+    }
 
     // set head attributes
     setElAttributes([
@@ -94,11 +108,14 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
 
   if (activeView) {
     for (let t = 0; t < sourceTabs.length; t++) {
-      const tab = sourceTabs[t] || '';
+      const tab = sourceTabs[t];
+
+      if (!tab || typeof tab !== 'string') continue;
+
       const cleaned = await cleanAndRenderTabs(tab, ctx.sourcePath, activeView.app, activeView);
 
       if (cleaned?.header) {
-        numOfTabs+= 1;
+        tabCounter+= 1;
         const tabHead = cleaned.header;
         const tabContent = cleaned.content;
 
@@ -131,19 +148,21 @@ export async function notetabsCodeBlockProcessor(source: string, el: HTMLElement
   notetabsApplySettings(noteTabsSection, plugin.settings);
 
   // add inline CSS tab count variable
-  noteTabsSection.style.setProperty('--tab-count', `${numOfTabs}`);
+  noteTabsSection.style.setProperty('--tab-count', `${tabCounter}`);
 }
 
 /**
  * Apply settings to Note Tabs containers
  *
- * @public
  * @param containerEl - Note Tabs container
  * @param pluginSettings - NoteTabsPlugin.settings
- * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value NOTETABS_ATTRIBUTES
- * @returns void
+ * @param pluginAttributes - Optional dictionary of Note Tabs attributes. Default value `NOTETABS_ATTRIBUTES`
  */
-export function notetabsApplySettings(containerEl: HTMLElement, pluginSettings: NoteTabsSettings, pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES): void {
+export function notetabsApplySettings(
+  containerEl: HTMLElement,
+  pluginSettings: NoteTabsSettings,
+  pluginAttributes: NoteTabsAttributes = NOTETABS_ATTRIBUTES
+): void {
   const { settings } = pluginAttributes;
 
   setElAttributes([
@@ -156,36 +175,32 @@ export function notetabsApplySettings(containerEl: HTMLElement, pluginSettings: 
 /**
  * Add new Note Tabs container section
  *
- * @public
  * @param editor - MarkdownView.editor
- * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value NOTETABS_CONSTANTS
- * @returns void
+ * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value `NOTETABS_CONSTANTS`
  */
 export function notetabsAddNewTabSection(editor: Editor, pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS): void {
-  if (editor) {
-    editor.replaceRange(
-      pluginConstants.emptySection,
-      editor.getCursor()
-    );
-  }
+  if (!editor) return;
+
+  editor.replaceRange(
+    pluginConstants.emptySection,
+    editor.getCursor()
+  );
 }
 
 
 /**
  * Add new Note Tabs tab
  *
- * @public
  * @param editor - MarkdownView.editor
- * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value NOTETABS_CONSTANTS
- * @return void
+ * @param pluginConstants - Optional dictionary of Note Tabs constants. Default value `NOTETABS_CONSTANTS`
  */
 export function notetabsAddNewTab(editor: Editor, pluginConstants: NoteTabsConstants = NOTETABS_CONSTANTS): void {
-  if (editor) {
-    editor.replaceRange(
-      pluginConstants.emptyTab,
-      editor.getCursor()
-    );
-  }
+  if (!editor) return;
+
+  editor.replaceRange(
+    pluginConstants.emptyTab,
+    editor.getCursor()
+  );
 }
 
 /**
@@ -193,22 +208,21 @@ export function notetabsAddNewTab(editor: Editor, pluginConstants: NoteTabsConst
  *
  * @public
  * @param plugin - NoteTabsPlugin
- * @param pluginIndentifiers - Optional dictionary of Note Tabs indentifiers. Default value NOTETABS_IDENTIFIERS
- * @returns void
+ * @param pluginIndentifiers - Optional dictionary of Note Tabs indentifiers. Default value `NOTETABS_CONSTANTS`
  */
 export function notetabsApplyUpdatedSettings(plugin: NoteTabsPlugin, pluginIndentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS): void {
   plugin.app.workspace.iterateAllLeaves((leaf) => {
-    if (leaf.view instanceof MarkdownView) {
-      const { containerEl } = leaf.view;
-      const { basicLayout } = pluginIndentifiers;
+    if (!(leaf.view instanceof MarkdownView)) return;
 
-      const noteTabsCollection = Array.from(
-        containerEl.querySelectorAll(`.${basicLayout.classNames.container}`)
-      );
+    const { containerEl } = leaf.view;
+    const { basicLayout } = pluginIndentifiers;
 
-      for (const notetabs of noteTabsCollection as HTMLElement[]) {
-        notetabsApplySettings(notetabs, plugin.settings);
-      }
+    const noteTabsCollection = Array.from(
+      containerEl.querySelectorAll(`.${basicLayout.classNames.container}`)
+    );
+
+    for (const notetabs of noteTabsCollection as HTMLElement[]) {
+      notetabsApplySettings(notetabs, plugin.settings);
     }
   });
 }
@@ -216,18 +230,14 @@ export function notetabsApplyUpdatedSettings(plugin: NoteTabsPlugin, pluginInden
 /**
  * Fallback rerender method for embeds inside Note Tabs
  *
- * @public
  * @param leaf - WorkspaceLeaf passed by event listener
  * @param plugin - NoteTabsPlugin
- * @param pluginIndentifiers - Optional dictionary of Note Tabs indentifiers. Default value NOTETABS_IDENTIFIERS
- * @returns void
+ * @param pluginIndentifiers - Optional dictionary of Note Tabs indentifiers. Default value `NOTETABS_IDENTIFIERS`
  */
 export function notetabsRerenderEmbeds(leaf: WorkspaceLeaf, plugin: NoteTabsPlugin, pluginIndentifiers: NoteTabsIdentifiers = NOTETABS_IDENTIFIERS): void {
   const activeView = plugin.app.workspace.getActiveViewOfType(MarkdownView)
 
-  if (!activeView || !Object.is(leaf.view, activeView)) {
-    return;
-  }
+  if (!activeView || !Object.is(leaf.view, activeView)) return;
 
   const { contentEl } = activeView;
   const { basicLayout } = pluginIndentifiers;

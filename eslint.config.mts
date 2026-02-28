@@ -13,7 +13,8 @@ export default tseslint.config(
 				projectService: {
 					allowDefaultProject: [
 						'eslint.config.js',
-						'manifest.json'
+						'manifest.json',
+						'gulpfile.cjs'
 					]
 				},
 				tsconfigRootDir: import.meta.dirname,
