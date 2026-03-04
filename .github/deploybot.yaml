@@ -1,0 +1,4 @@
+deployments:
+  - name: production
+    description: Deploy playground changes to production repo
+    # manual deployed

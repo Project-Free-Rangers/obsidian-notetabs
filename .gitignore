@@ -3,6 +3,8 @@ node_modules
 *.lock
 package-lock.json
 release-build
+.env
+.secrets
 
 # Intellij
 *.iml
