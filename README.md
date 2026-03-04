@@ -111,7 +111,7 @@ Replace this with your tab content.
 
 ## ![Support Project Free Rangers](./docs/assets/heart-handshake.svg) Support
 
-**Project Free Rangers** is the free-spirited brainchild of me ([Jheanell Elliott](https://github.com/jaemega)). I'm an artist, mentor, and software architect by trade. When I'm not wrangling teams or large projects at my day job, I like to cobble together nifty side projects that I think are rad and provide them for free.
+**Project Free Rangers** is the free-spirited brainchild of me ([Jheanell Elliott](https://github.com/jaemega)). I'm an artist, mentor, and software architect by trade. When I'm not wrangling teams or large projects, I like to cobble together nifty side projects that I think are rad and provide them for free.
 
 If you like any of the fun projects I develop and want to say an extra thank you:
 
