@@ -1,8 +1,4 @@
-<picture>
- <source media="(width > 800px)" srcset="./docs/assets/notetabs-logo-lockup.svg" type="image/svg+xml" width="75%">
- <source media="(width <= 800px)" srcset="./docs/assets/notetabs-logo-lockup.svg" type="image/svg+xml" width="100%">
- <img src="./docs/assets/notetabs-logo-lockup.svg" alt="Note Tabs logo" style="height: auto;">
-</picture>
+<img src="./docs/assets/notetabs-logo-lockup.svg" alt="Note Tabs logo" width="95%" style="height: auto;">
 <br><br>
 
 ![Dynamic Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FProject-Free-Rangers%2Fobsidian-notetabs%2Frefs%2Fheads%2Fmain%2Fpackage.json&query=%24.version&style=plastic&logo=github&label=version&color=3BA3FF
@@ -42,12 +38,12 @@ Elevate your Obsidian notes with tabbed sections. **Note Tabs** offers an intuit
 
 ### Manual Installation
 
-1. Download the latest `obsidian-notetabs.zip` from [**Releases**](https://github.com/Project-Free-Rangers/obsidian-notetabs/releases)
-2. Extract the zipped folder and copy/paste it to the `.obsidian/plugins` within your desired vault's folder structure
+1. Go to `.obsidian/plugins` within your desired vault's folder structure and create an `obsidian-notetabs` folder
+1. Download the latest `main.js`, `style.css`, and `manifest.json` from [**Releases**](https://github.com/Project-Free-Rangers/obsidian-notetabs/releases) into the `obsidian-notetabs` folder
 3. Open Obsidian and navigate to **Community plugins**
 4. Enable **Note Tabs**
 
-:tada::tada: _Happy organizing!_
+🎉🎉 _Happy organizing!_
 
 <br>
 
@@ -131,5 +127,5 @@ This slow rendering doesn't happen often and will resolve itself once Obsidian t
 <br>
 
 > **Credits:**
-> - _**Note Tabs** tab logo :copyright: 2026 Jheanell Elliott (Project Free Rangers)_
+> - _**Note Tabs** tab logo ©️ 2026 Jheanell Elliott (Project Free Rangers)_
 > - _Icons courtesy of [Lucide](https://lucide.dev/)_

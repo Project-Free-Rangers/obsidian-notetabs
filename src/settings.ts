@@ -90,7 +90,7 @@ export class NoteTabsSettingsTab extends PluginSettingTab {
 			);
 
 		// Support button
-		const SupportArea = containerEl.createEl('div');
+		const SupportArea = containerEl.createDiv();
 		parseHTMLStringAndAppend((NOTETABS_CONSTANTS.support?.callout || ''), SupportArea);
 	}
 }
