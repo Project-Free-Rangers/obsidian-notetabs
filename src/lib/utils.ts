@@ -67,8 +67,8 @@ export const cleanAndRenderTabs = async (
 
   if (header && content) {
     // render secondary markdown
-    const tabHeadEl = document.createElement('div');
-    const tabContentEl = document.createElement('div');
+    const tabHeadEl = activeDocument.body.createDiv();
+    const tabContentEl = activeDocument.body.createDiv();
 
     await MarkdownRenderer.render(app, header, tabHeadEl, path, cmp);
     await MarkdownRenderer.render(app, content, tabContentEl, path, cmp);
